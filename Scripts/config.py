@@ -10,19 +10,17 @@ nothing else in the project should hardcode a path.
 # ──────────────────────────────────────────────────────────────────────────
 # Morphology DBs -- one per --analyzer choice.
 # ──────────────────────────────────────────────────────────────────────────
-CM_DB_PATH = "/Users/mms10094/Downloads/camel_morph_msa_v1.2.1.db"
-S31_DB_PATH = ("/Users/mms10094/Documents/Coding Stuff/Camel lemma analysis/"
-               "Morphology DB/calima-msa-s31_0.4.2.utf8.db")
-R13_DB_PATH = "/Users/mms10094/Documents/Coding Stuff/CAMeL_Tools_2.0/db/calima-msa-r13.db"
+CM_DB_PATH = "../dbs/camel_morph_msa_v1.2.1.db"
+S31_DB_PATH = ("../dbs/calima-msa-s31_0.4.2.utf8.db")
+R13_DB_PATH = "../dbs/calima-msa-r13.db"
 
 # ──────────────────────────────────────────────────────────────────────────
 # Shared data/model locations used by presets.
 # ──────────────────────────────────────────────────────────────────────────
-TANZIL_PATH = "/Users/mms10094/Documents/Coding Stuff/AACL_2025_Quran_Project/tanzil_words.csv"
-GOLD_PATH = ("/Users/mms10094/Documents/Coding Stuff/AACL_2025_Quran_Project/"
-             "final_data/Consolidation Sheet - Sheet8.csv")
-DATA_DIR = "/Users/mms10094/Downloads/data"
-MODELS_DIR = "/Users/mms10094/Documents/Coding Stuff/AACL_2025_Quran_Project/finetuned_models"
+TANZIL_PATH = "../data/tanzil_words.csv"
+GOLD_PATH = ("../data/MAQAM_Gold_data.csv")
+DATA_DIR = "../data"
+MODELS_DIR = "../finetuned_models"
 
 # Surah filter applied to the tanzil word source whenever --data-source=quran.
 TANZIL_SURAHS = [45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
@@ -46,4 +44,4 @@ DEFAULT_CLITIC_OVERRIDES = [
 
 # Shared cross-preset accuracy table that every run.py invocation appends
 # a row to (see core.evaluate.append_to_combined_summary).
-COMBINED_SUMMARY_CSV = "outputs/combined_summary.csv"
+COMBINED_SUMMARY_CSV = "../outputs/combined_summary.csv"
