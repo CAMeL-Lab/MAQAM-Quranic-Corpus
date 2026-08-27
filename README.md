@@ -1,4 +1,4 @@
-# Disambiguation Eval Pipeline
+# MAQAM: A Richly Annotated Corpus for Quranic Arabic Morphological Analysis and Disambiguation
 
 Run CAMeL Tools disambiguation over a gold dataset (Quran or custom), then
 score the output. Built around a `RunConfig` dataclass so a "preset" is a
