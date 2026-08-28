@@ -4,6 +4,48 @@ Run CAMeL Tools disambiguation over a gold dataset (Quran or custom), then
 score the output. Built around a `RunConfig` dataclass so a "preset" is a
 real Python object, not a pile of CLI-flag strings.
 
+## Installation
+
+```bash
+# 1. Create and activate a new environment
+conda create -n maqam_env python=3.11.15
+conda activate maqam_env
+
+# 2. Clone and install camel_tools from source
+git clone https://github.com/CAMeL-Lab/camel_tools.git
+cd camel_tools
+pip install .
+cd ../
+
+# 3. Install the remaining pipeline dependencies
+pip install -r requirements.txt
+```
+
+**Patch in the unfactored disambiguator.** This pipeline needs a version of
+`BERTUnfactoredDisambiguator` that isn't in the installed `camel_tools`
+release yet. Copy it over from `scripts/`:
+
+```bash
+cp scripts/bert.py camel_tools/camel_tools/disambig/bert.py
+```
+
+## Fine-tuned models
+
+Download the fine-tuned models used by the presets below (see
+`download_models.py` for details — it fetches each one from the GitHub
+release and extracts it into `MODELS_DIR`).
+
+```bash
+# See everything available on the release
+gh release view models-v1
+
+# Download every model
+python download_models.py
+
+# Download a specific model only
+python download_models.py patb_model
+```
+
 ## Files
 
 ```
