@@ -233,3 +233,14 @@ Every run (unless `skip_eval`) also appends one row to
 `outputs/combined_summary.csv` (path set by `config.COMBINED_SUMMARY_CSV`),
 so you can compare accuracy across every preset you've ever run in one
 table.
+
+## License
+
+The dataset and original annotations in the `data/` directory are licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) (`CC-BY-4.0`).
+
+The software in the `code/` directory is licensed under the MIT License. See `LICENSE-CODE`.
+
+Third-party materials are not relicensed by this project. Their respective sources, copyright notices, and licensing terms are listed in `THIRD_PARTY_NOTICES.md`.
+
+When using the dataset, please provide appropriate attribution, link to the CC BY 4.0 license, indicate whether changes were made, and cite the associated paper.
+
