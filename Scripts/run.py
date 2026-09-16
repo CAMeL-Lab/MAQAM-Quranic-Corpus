@@ -19,6 +19,13 @@ from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Optional
 
+# The repository vendors CAMeL Tools under camel_tools/camel_tools rather
+# than installing it into the active interpreter.
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CAMEL_TOOLS_ROOT = PROJECT_ROOT / "camel_tools"
+if str(CAMEL_TOOLS_ROOT) not in sys.path:
+    sys.path.insert(0, str(CAMEL_TOOLS_ROOT))
+
 import pandas as pd
 
 import config as cfg
@@ -180,9 +187,10 @@ def main(config: RunConfig):
     comparison_df, summary_df = evaluate.evaluate(disambig_df, gold_df, analyzer_type=evaluation_mode)
 
     print("\nPer-feature accuracy:")
-    print(comparison_df.to_string(index=False))
+    accuracy_format = {"acc (%)": "{:.1f}".format}
+    print(comparison_df.to_string(index=False, formatters=accuracy_format))
     print("\nSummary:")
-    print(summary_df.to_string(index=False))
+    print(summary_df.to_string(index=False, formatters=accuracy_format))
 
     comparison_df.to_csv(out_dir / "comparison.csv", index=False)
     summary_df.to_csv(out_dir / "summary.csv", index=False)

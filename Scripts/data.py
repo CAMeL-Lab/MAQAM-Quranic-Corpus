@@ -169,6 +169,10 @@ def build_profile(profile_csvs, source_tag=PROFILE_SOURCE_TAG):
         if feat not in profile_df.columns:
             profile_df[feat] = ''
     profile_df['source'] = source_tag
+    profile_df = profile_df.drop_duplicates(
+        subset=['word'] + CAMEL_FEATURES,
+        keep='first',
+    )
     for col in ['pos_lex_logprob', 'lex_logprob', 'pos_logprob']:
         profile_df[col] = pd.to_numeric(profile_df[col], errors='coerce').fillna(-99)
 

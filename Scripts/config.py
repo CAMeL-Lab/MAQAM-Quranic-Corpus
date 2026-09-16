@@ -7,20 +7,25 @@ Edit this file when you move to a new machine or your data moves --
 nothing else in the project should hardcode a path.
 """
 
+from pathlib import Path
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
 # ──────────────────────────────────────────────────────────────────────────
 # Morphology DBs -- one per --analyzer choice.
 # ──────────────────────────────────────────────────────────────────────────
-CM_DB_PATH = "../dbs/camel_morph_msa_v1.2.1.db"
-S31_DB_PATH = ("../dbs/calima-msa-s31_0.4.2.utf8.db")
-R13_DB_PATH = "../dbs/calima-msa-r13.db"
+CM_DB_PATH = str(PROJECT_ROOT / "db" / "camel_morph_msa_v1.2.1.db")
+S31_DB_PATH = str(PROJECT_ROOT / "db" / "calima-msa-s31_0.4.2.utf8.db")
+R13_DB_PATH = str(PROJECT_ROOT / "db" / "calima-msa-r13.db")
 
 # ──────────────────────────────────────────────────────────────────────────
 # Shared data/model locations used by presets.
 # ──────────────────────────────────────────────────────────────────────────
-TANZIL_PATH = "../data/tanzil_words.csv"
-GOLD_PATH = ("../data/MAQAM_Gold_data.csv")
-DATA_DIR = "../data"
-MODELS_DIR = "../finetuned_models"
+TANZIL_PATH = str(PROJECT_ROOT / "data" / "tanzil_words.csv")
+GOLD_PATH = str(PROJECT_ROOT / "data" / "MAQAM_Gold_data.csv")
+DATA_DIR = str(PROJECT_ROOT / "data")
+MODELS_DIR = str(PROJECT_ROOT / "finetuned_models")
 
 # Surah filter applied to the tanzil word source whenever --data-source=quran.
 TANZIL_SURAHS = [45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
@@ -44,4 +49,4 @@ DEFAULT_CLITIC_OVERRIDES = [
 
 # Shared cross-preset accuracy table that every run.py invocation appends
 # a row to (see core.evaluate.append_to_combined_summary).
-COMBINED_SUMMARY_CSV = "../outputs/combined_summary.csv"
+COMBINED_SUMMARY_CSV = str(PROJECT_ROOT / "outputs" / "combined_summary.csv")
