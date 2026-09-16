@@ -240,7 +240,5 @@ The dataset and original annotations in the `data/` directory are licensed under
 
 The software in the `code/` directory is licensed under the MIT License. See `LICENSE-CODE`.
 
-Third-party materials are not relicensed by this project. Their respective sources, copyright notices, and licensing terms are listed in `THIRD_PARTY_NOTICES.md`.
-
 When using the dataset, please provide appropriate attribution, link to the CC BY 4.0 license, indicate whether changes were made, and cite the associated paper.
 
