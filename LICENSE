@@ -1,0 +1,39 @@
+MAQAM DATA LICENSE NOTICE
+
+Copyright (c) 2026 MAQAM authors
+
+Except where otherwise stated, original annotation content created solely by
+the MAQAM authors is licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0).
+
+License summary:
+https://creativecommons.org/licenses/by/4.0/
+
+Legal code:
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+Under CC BY 4.0, users may share and adapt the licensed material for any
+purpose, including commercially, provided that they give appropriate credit,
+provide a link to the license, and indicate whether changes were made.
+
+SCOPE AND EXCLUSIONS
+
+This license applies only to original annotation content for which the MAQAM
+authors have authority to grant a license. It does not apply to:
+
+1. Quran text originating from the Tanzil Project;
+2. annotations or other material originating from or adapted from the Quranic
+   Arabic Corpus;
+3. Penn Arabic Treebank data;
+4. third-party morphological databases, models, or software; or
+5. source code in the Scripts directory.
+
+Third-party material remains subject to its original copyright and licensing
+terms. See THIRD_PARTY_NOTICES.md.
+
+Source code in the Scripts directory is licensed separately under the MIT
+License. See LICENSE-CODE.
+
+This notice does not itself authorize distribution of transformed Quranic
+Arabic Corpus material. Permission for any such distribution must be confirmed
+with the applicable copyright holder before public release.
