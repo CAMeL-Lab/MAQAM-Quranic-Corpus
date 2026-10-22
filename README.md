@@ -6,38 +6,40 @@ real Python object, not a pile of CLI-flag strings.
 
 ## Installation
 
+Run everything below from the repository root.
+
 ```bash
 # 1. Create and activate a new environment
-conda create -n maqam_env python=3.11.15
+conda create -n maqam_env python=3.11 -y
 conda activate maqam_env
 
-# 2. Clone and install camel_tools from source
+# 2. Clone camel_tools into the repository root
 git clone https://github.com/CAMeL-Lab/camel_tools.git
-cd camel_tools
-pip install .
-cd ../
 
-# 3. Install the remaining pipeline dependencies
+# 3. Add the updated unfactored disambiguator
+cp Scripts/unfactored.py camel_tools/camel_tools/disambig/bert/unfactored.py
+
+# 4. Install camel_tools and the remaining pipeline dependencies
+pip install ./camel_tools
 pip install -r requirements.txt
 ```
 
-**Patch in the unfactored disambiguator.** This pipeline needs a version of
-`BERTUnfactoredDisambiguator` that isn't in the installed `camel_tools`
-release yet. Copy it over from `scripts/`:
-
-```bash
-cp scripts/bert.py camel_tools/camel_tools/disambig/bert.py
-```
+This pipeline uses an updated `BERTUnfactoredDisambiguator` (fine-tuned
+model loading with a custom analyzer) that is not yet part of the
+`camel_tools` release; step 3 adds it before installation.
 
 ## Fine-tuned models
 
-Download the fine-tuned models used by the presets below (see
-`download_models.py` for details — it fetches each one from the GitHub
-release and extracts it into `MODELS_DIR`).
+Download the fine-tuned models used by the presets below. `download_models.py`
+fetches each `.zip` from the
+[`models-v1` release](https://github.com/CAMeL-Lab/MAQAM-Quranic-Corpus/releases/tag/models-v1)
+and extracts it into `finetuned_models/` at the repository root.
 
 ```bash
-# See everything available on the release
-gh release view models-v1
+cd Scripts
+
+# List what's available
+python download_models.py --list
 
 # Download every model
 python download_models.py
@@ -49,34 +51,44 @@ python download_models.py patb_model
 ## Files
 
 ```
-config.py            # every hardcoded path + default knob, one place
-data.py              # gold_df loading, tanzil word attachment, quran_df/custom_analyses
-models.py            # analyzer + disambiguator construction, disambiguation loop
-evaluate.py          # scoring: normalization, per-feature/exact-match/group accuracy
-run.py               # RunConfig dataclass + the pipeline + a standalone CLI
-presets.py           # your named experiment configs, as a dict of RunConfig objects
-run_experiments.py   # select/override/run one, several, or all presets
+Scripts/
+  config.py            # every hardcoded path + default knob, one place
+  data.py              # gold_df loading, tanzil word attachment, quran_df/custom_analyses
+  models.py            # analyzer + disambiguator construction, disambiguation loop
+  evaluate.py          # scoring: normalization, per-feature/exact-match/group accuracy
+  run.py               # RunConfig dataclass + the pipeline + a standalone CLI
+  presets.py           # named experiment configs, as a dict of RunConfig objects
+  run_experiments.py   # select/override/run one, several, or all presets
+  download_models.py   # fetch the fine-tuned models from the GitHub release
+  unfactored.py        # patched BERTUnfactoredDisambiguator for camel_tools
+data/                  # MAQAM gold data, Q_Train/Q_Tune/Q_All splits, tanzil words
+db/                    # morphology DBs: camel_morph, calima-msa-s31, calima-msa-r13
 ```
 
-All 7 files live flat in the same directory.
+The scripts import each other by module name, so **run every command from
+inside `Scripts/`**.
 
-## One-time setup
+## Paths
 
-Open **`config.py`** and point every path at your machine:
+`Scripts/config.py` already points every path at the repository's own
+folders, so no editing is needed for the paper runs. Change it only if you
+move data, DBs, or models elsewhere:
 
-| Constant | What it is |
+| Constant | Default |
 |---|---|
-| `CM_DB_PATH` | camel_morph MorphologyDB `.db` file |
-| `S31_DB_PATH` | calima-s31 MorphologyDB `.db` file |
-| `R13_DB_PATH` | calima-r13 MorphologyDB `.db` file — **placeholder, fill this in** |
-| `DATA_DIR` | folder with `Q_Train_<script>.csv` / `Q_Tune_<script>.csv` / `Q_All_<script>.csv` |
-| `MODELS_DIR` | folder holding your fine-tuned model subfolders |
-| `TANZIL_PATH` | tanzil-style word source CSV (`tanzil_uthmani`/`tanzil_imlaay` columns) |
-| `GOLD_PATH` | your Quran gold evaluation sheet |
+| `CM_DB_PATH` | `db/camel_morph_msa_v1.2.1.db` |
+| `S31_DB_PATH` | `db/calima-msa-s31_0.4.2.utf8.db` |
+| `R13_DB_PATH` | `db/calima-msa-r13.db` |
+| `DATA_DIR` | `data/` (`Q_Train_<script>.csv` / `Q_Tune_<script>.csv` / `Q_All_<script>.csv`) |
+| `MODELS_DIR` | `finetuned_models/` |
+| `TANZIL_PATH` | `data/tanzil_words.csv` |
+| `GOLD_PATH` | `data/MAQAM_Gold_data.csv` |
 
 ## Running everything through presets (recommended)
 
 ```bash
+cd Scripts
+
 # See what's available and where each preset's output lands
 python run_experiments.py --list
 
@@ -116,7 +128,7 @@ Plain preset runs, no overrides needed — just `python run_experiments.py <pres
 | c-1 | `qtrain_patb_model_and_cm_imlaay` | |
 | c-2 | `qtrain_patb_model_and_qtrain_imlaay` | |
 | c-3 | `qtrain_patb_model_and_cm_qtrain_imlaay` | best system (fair) |
-| d | `qall_patb_model_and_cm_qall_imlaay` | best system (cheating — test is in the train + custom analyses) |
+| d | `qall_patb_model_and_cm_qall_imlaay` | upper bound (test data included in training and custom analyses) |
 | e | `qtrain_patb_imlaay_model_and_cm_qtrain_imlaay_imlaay` | |
 
 Run them all in one go:
@@ -128,10 +140,17 @@ python run_experiments.py \
   qtrain_patb_model_and_cm_imlaay qtrain_patb_model_and_qtrain_imlaay qtrain_patb_model_and_cm_qtrain_imlaay \
   qall_patb_model_and_cm_qall_imlaay \
   qtrain_patb_imlaay_model_and_cm_qtrain_imlaay_imlaay \
-  --keep-going
+  --keep-going --suffix
 ```
 
+`--suffix` appends the preset name to each output folder, keeping runs that
+share a model and analyzer (e.g. b-1/b-2/b-3) in separate folders.
+
 ## PATB test set (paper runs)
+
+The PATB test set (`ATB_test_set_0.4.2.csv`) is not distributed with this
+repository; it is derived from the LDC Penn Arabic Treebank, so you need
+your own copy.
 
 All 6 runs share the same base flags — only `preset`, `--custom-split`,
 `--custom-custom-analyses`, and (for the b-series) `--custom-model` change:
@@ -223,14 +242,16 @@ without.
 
 ## Output
 
-Each run writes to `outputs/<derived-or-explicit-name>/`:
+Each run writes to `outputs/<derived-or-explicit-name>/`, relative to the
+directory you run from (so `Scripts/outputs/...` when following this README):
 
 - `disambig_output.csv` — raw disambiguation output
 - `comparison.csv` — per-feature accuracy (skipped if `skip_eval`/`--custom-skip-eval`)
 - `summary.csv` — grouped accuracy (lexical / inflectional / clitics / all, macro avg + exact match)
 
 Every run (unless `skip_eval`) also appends one row to
-`outputs/combined_summary.csv` (path set by `config.COMBINED_SUMMARY_CSV`),
+`outputs/combined_summary.csv` at the repository root (path set by
+`config.COMBINED_SUMMARY_CSV`),
 so you can compare accuracy across every preset you've ever run in one
 table.
 
@@ -238,7 +259,7 @@ table.
 
 The dataset and original annotations in the `data/` directory are licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) (`CC-BY-4.0`).
 
-The software in the `code/` directory is licensed under the MIT License. See `LICENSE-CODE`.
+The software in the `Scripts/` directory is licensed under the MIT License. See `LICENSE-CODE`.
 
 When using the dataset, please provide appropriate attribution, link to the CC BY 4.0 license, indicate whether changes were made, and cite the associated paper.
 
