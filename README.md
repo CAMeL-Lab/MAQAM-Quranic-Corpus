@@ -82,6 +82,13 @@ move data, DBs, or models elsewhere:
 | `TANZIL_PATH` | `data/tanzil_words.csv` |
 | `GOLD_PATH` | `data/MAQAM_Gold_data.csv` |
 
+## Morphology resources
+
+To obtain the S31 database, follow the instructions in the
+[CAMeLBERT MSA analyzer release](https://github.com/CAMeL-Lab/CAMeLBERT_morphosyntactic_tagger/releases/tag/v0.0.1).
+The PATB data is also available there. CAMeL Morph can be accessed from the
+[camel_morph repository](https://github.com/CAMeL-Lab/camel_morph).
+
 ## Running everything through presets (recommended)
 
 ```bash
