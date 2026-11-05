@@ -264,10 +264,15 @@ table.
 
 The dataset and original annotations in the `data/` directory are licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) (`CC-BY-4.0`).
 
-The software in the `Scripts/` directory is licensed under the MIT License. See `LICENSE-CODE`.
+All code in this repo is licensed under the MIT License. See [LICENSE](/LICENSE) for more info.
 
 When using the dataset, please provide appropriate attribution, link to the CC BY 4.0 license, indicate whether changes were made, and cite the associated paper.
 
+For example:
+
+> [MAQAM: A Richly Annotated Corpus for Quranic Arabic Morphological Analysis and Disambiguation](https://github.com/CAMeL-Lab/MAQAM-Quranic-Corpus) © 2026 by New York University Abu Dhabi is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+Or use the BibTeX citation below.
 
 ## Citation
 
