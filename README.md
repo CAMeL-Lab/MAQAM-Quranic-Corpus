@@ -262,7 +262,7 @@ table.
 
 ## License
 
-The dataset and original annotations in the `data/` directory are licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) (`CC-BY-4.0`).
+The dataset and original annotations in the `data/` directory are licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) (`CC-BY-4.0`). These are based on text data obtained from the [Tanzil Project](https://tanzil.net/download/), which is licensed under the [Creative Commons Attribution 3.0 License (CC-BY-3.0)](https://creativecommons.org/licenses/by/3.0/).
 
 All code in this repo is licensed under the MIT License. See [LICENSE](/LICENSE) for more info.
 
